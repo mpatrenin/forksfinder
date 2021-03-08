@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Table from 'react-bootstrap/table';
 
 export default class List extends Component {
   static propTypes = {
@@ -52,7 +51,7 @@ export default class List extends Component {
 
     return (
       <div>
-        <Table striped bordered hover>
+        <table >
           <thead>
             <tr>
               <th>#</th>
@@ -74,7 +73,7 @@ export default class List extends Component {
                 })
                 }
           </tbody>
-        </Table>
+        </table>
         {pageCount > 0 && !isLastPage && this.renderLoadMore()}
       </div>
     )
