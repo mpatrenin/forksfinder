@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import Explore from '../components/Explore'
 import { resetErrorMessage } from '../actions'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends Component {
   static propTypes = {

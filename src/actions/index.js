@@ -40,59 +40,31 @@ const fetchForks = (fullName, nextPageURL) => ({
   }
 })
 
-export const loadForks = (fullName, nextPage) => (dispatch, getState) => {
-  let counter = 0
-  let {
-    nextPageUrl = `repos/${fullName}/forks`,
-    pageCount = 0
-  } = getState().pagination.ForksReducer[fullName] || {}
+export const loadForks = (fullName, page, nextPage) => (dispatch, getState) => {
+    let {
+      nextPageUrl = `repos/${fullName}/forks?page=${page}`,
+      pageCount = 0
+    } = getState().pagination.ForksReducer[fullName] || {}
 
-  if (getState().pagination.ForksReducer[fullName]){
-    if (counter < getState().pagination.ForksReducer[fullName].pageCount) 
-    {counter = getState().pagination.ForksReducer[fullName].pageCount}
-  }
-
-  if (pageCount > 0 && !nextPage) {
-    console.log('returning null')
-    return null
-  }
-
-  let url = new URL(window.location.href)
-  let search_params = url.searchParams
-
-  if (!nextPage && search_params.get('page') > 1){
-    const neededpage = Number(search_params.get('page'))
-    function waitForNextPage(){
-      if (getState().pagination.ForksReducer[fullName]) {
-        console.log(`im here, ${getState().pagination.ForksReducer[fullName].nextPageUrl}`)
-        let jumptopage = getState().pagination.ForksReducer[fullName].nextPageUrl
-        console.log(jumptopage.toString().slice(0,-1).concat(neededpage))
-        nextPageUrl = jumptopage.toString().slice(0,-1).concat(neededpage)
-        counter = neededpage
-        console.log(counter)
-        return dispatch(fetchForks(fullName, nextPageUrl))
-      }
-      else {
-        console.log(`waiting for nextpage..`)
-        setTimeout(waitForNextPage, 250)
-      }
+    if (pageCount > 0 && !nextPage) {
+      console.log('returning null')
+      return null
     }
-    waitForNextPage();
-  }
 
-  if (!window.location.href.includes('page')){
-    search_params.set('page', '1')
-    url.search = search_params.toString()
-    let new_url = url.toString()
-    window.location.href = new_url
-   } 
-  
-   if (counter > 0) {
-    const stateObj = { page: '0' }
-    window.history.replaceState(stateObj, 'page', `?page=${counter+1}`)
-   }
+    let url = new URL(window.location.href)
+    let search_params = url.searchParams
 
-  return dispatch(fetchForks(fullName, nextPageUrl))
+    if (!window.location.href.includes('page')){
+      search_params.set('page', '1')
+      window.history.replaceState({}, 'page', `?page=1`)
+    } 
+
+    return dispatch(fetchForks(fullName, nextPageUrl))
+}
+
+  export const loadPrevForks = (fullName, page) => (dispatch, getState) => {
+    let nextPageUrl = `repos/${fullName}/forks?page=${page}`
+    return dispatch(fetchForks(fullName, nextPageUrl))
   }
 
   export const FORKS_REQUEST = 'FORKS_REQUEST'

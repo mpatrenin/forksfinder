@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Container from 'react-bootstrap/Container';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 export default class List extends Component {
   static propTypes = {
@@ -9,7 +12,8 @@ export default class List extends Component {
     items: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
     onLoadMoreClick: PropTypes.func.isRequired,
-    nextPageUrl: PropTypes.string
+    nextPageUrl: PropTypes.string,
+    currentResults: PropTypes.object
   }
 
   static defaultProps = {
@@ -17,14 +21,28 @@ export default class List extends Component {
     loadingLabel: 'Loading...'
   }
 
+  handleclick(){
+    window.history.go(-2);
+    console.log(this.props.items)
+    this.props.items.splice(0, 30);
+  }
+
   renderLoadMore() {
     const { isFetching, onLoadMoreClick } = this.props
+
     return (
-      <button style={{ fontSize: '150%' }}
+      <>
+      <Button style={{ fontSize: '150%' }}
+              onClick={()=>{this.handleclick()}}
+              disabled={isFetching}>
+        {isFetching ? 'Loading...' : 'Prev page'}
+      </Button>
+      <Button className='ml-2' style={{ fontSize: '150%' }}
               onClick={onLoadMoreClick}
               disabled={isFetching}>
         {isFetching ? 'Loading...' : 'Next page'}
-      </button>
+      </Button>
+      </>
     )
   }     
 
@@ -33,13 +51,10 @@ export default class List extends Component {
 
     const {
       isFetching, nextPageUrl, pageCount,
-      items, forks, loadingLabel
+      items, forks, loadingLabel, currentResults
     } = this.props
-    const size = 30;
 
-    const forkslist = Object.values(forks)
-
-    const isEmpty = items.length === 0
+    const isEmpty = currentResults.length === 0
     if (isEmpty && isFetching) {
       return <h2><i>{loadingLabel}</i></h2>
     }
@@ -50,11 +65,12 @@ export default class List extends Component {
     }
 
     return (
-      <div>
-        <table >
+
+<Container>
+        <Table striped bordered hover>
           <thead>
             <tr>
-              <th>#</th>
+              <th>IDs</th>
               <th>Full Name</th>
               <th>Owner</th>
               <th>stargazers_count</th>
@@ -62,20 +78,20 @@ export default class List extends Component {
             </tr>
           </thead>
           <tbody>
-              {forkslist.slice(0, size).map((fork)=>{
-                    return <tr key={fork.fullName}>
-                        <th>{forkslist.indexOf(fork)+1}</th>
-                        <th>{fork.fullName}</th>
-                        <th>{fork.owner.login}</th>
-                        <th>{fork.stargazersCount}</th>
-                        <th><a href={fork.htmlUrl}>{fork.htmlUrl}</a></th>
-                        </tr>
-                })
-                }
+            {Object.values(currentResults).map((fork)=>{
+              return <tr key={fork.fullName}>
+                      <th>{fork.id}</th>
+                      <th>{fork.fullName}</th>
+                      <th>{fork.owner}</th>
+                      <th>{fork.stargazersCount}</th>
+                      <th><a href={fork.htmlUrl}>{fork.htmlUrl}</a></th>
+                    </tr>
+              })
+            }
           </tbody>
-        </table>
+        </Table>
         {pageCount > 0 && !isLastPage && this.renderLoadMore()}
-      </div>
+      </Container>
     )
   }
 }

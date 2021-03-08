@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-
+import Container from 'react-bootstrap/Container';
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
@@ -38,7 +37,7 @@ export default class Explore extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
         <p>Type a owner/repo name and Go:</p>
         <input size="45"
                ref={(input) => this.input = input}
@@ -48,7 +47,7 @@ export default class Explore extends Component {
           Go!
         </button>
 
-      </div>
+      </Container>
     )
   }
 }

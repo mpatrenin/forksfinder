@@ -19,7 +19,8 @@ const paginate = ({ types, mapActionToKey }) => {
     isFetching: false,
     nextPageUrl: undefined,
     pageCount: 0,
-    ids: []
+    ids: [],
+    currentResponse: []
   }, action) => {
     switch (action.type) {
       case requestType:
@@ -33,7 +34,8 @@ const paginate = ({ types, mapActionToKey }) => {
           isFetching: false,
           ids: union(state.ids, action.response.result),
           nextPageUrl: action.response.nextPageUrl,
-          pageCount: state.pageCount + 1
+          pageCount: state.pageCount + 1,
+          currentResponse: action.response.entities.forks
         }
       case failureType:
         return {
