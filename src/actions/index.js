@@ -59,6 +59,9 @@ export const loadForks = (fullName, page, nextPage) => (dispatch, getState) => {
       window.history.replaceState({}, 'page', `?page=1`)
     } 
 
+    let pageindex = nextPageUrl.toString().charAt(nextPageUrl.toString().length-1)
+    history.pushState({page: pageindex}, `${pageindex}`, `?page=${pageindex}`)
+
     return dispatch(fetchForks(fullName, nextPageUrl))
 }
 

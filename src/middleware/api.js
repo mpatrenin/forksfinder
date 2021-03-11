@@ -23,8 +23,8 @@ const API_ROOT = 'https://api.github.com/'
 // This makes every API response have the same shape, regardless of how nested it was.
 const callApi = (endpoint, schema) => {
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint
-  let pageindex = fullUrl.toString().charAt(fullUrl.toString().length-1)
-  history.pushState({page: pageindex}, `${pageindex}`, `?page=${pageindex}`)
+  // let pageindex = fullUrl.toString().charAt(fullUrl.toString().length-1)
+  // history.pushState({page: pageindex}, `${pageindex}`, `?page=${pageindex}`)
 
   return fetch(fullUrl)
     .then(response =>

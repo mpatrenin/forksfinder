@@ -22,9 +22,7 @@ export default class List extends Component {
   }
 
   handleclick(){
-    window.history.go(-2);
-    console.log(this.props.items)
-    this.props.items.splice(0, 30);
+    window.history.back();
   }
 
   renderLoadMore() {
@@ -44,15 +42,11 @@ export default class List extends Component {
       </Button>
       </>
     )
-  }     
-
+  }
 
   render() {
 
-    const {
-      isFetching, nextPageUrl, pageCount,
-      items, forks, loadingLabel, currentResults
-    } = this.props
+    const { isFetching, nextPageUrl, pageCount, loadingLabel, currentResults} = this.props
 
     const isEmpty = currentResults.length === 0
     if (isEmpty && isFetching) {
@@ -66,7 +60,7 @@ export default class List extends Component {
 
     return (
 
-<Container>
+      <Container>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -86,8 +80,7 @@ export default class List extends Component {
                       <th>{fork.stargazersCount}</th>
                       <th><a href={fork.htmlUrl}>{fork.htmlUrl}</a></th>
                     </tr>
-              })
-            }
+            })}
           </tbody>
         </Table>
         {pageCount > 0 && !isLastPage && this.renderLoadMore()}
