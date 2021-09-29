@@ -30,16 +30,16 @@ export default class List extends Component {
 
     return (
       <>
-      <Button style={{ fontSize: '150%' }}
-              onClick={()=>{this.handleclick()}}
-              disabled={isFetching}>
-        {isFetching ? 'Loading...' : 'Prev page'}
-      </Button>
-      <Button className='ml-2' style={{ fontSize: '150%' }}
-              onClick={onLoadMoreClick}
-              disabled={isFetching}>
-        {isFetching ? 'Loading...' : 'Next page'}
-      </Button>
+        <Button style={{ fontSize: '150%' }}
+                onClick={()=>{this.handleclick()}}
+                disabled={isFetching}>
+          {isFetching ? 'Loading...' : 'Prev page'}
+        </Button>
+        <Button className='ml-2' style={{ fontSize: '150%' }}
+                onClick={onLoadMoreClick}
+                disabled={isFetching}>
+          {isFetching ? 'Loading...' : 'Next page'}
+        </Button>
       </>
     )
   }
