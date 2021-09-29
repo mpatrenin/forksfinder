@@ -19,9 +19,6 @@ export default class Explore extends Component {
   }
 
   setInputValue = (val) => {
-    // Generally mutating DOM is a bad idea in React components,
-    // but doing this for a single uncontrolled field is less fuss
-    // than making it controlled and maintaining a state for it.
     this.input.value = val
   }
 
